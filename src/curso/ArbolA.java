@@ -1,5 +1,21 @@
 package curso;
+/*
+    Para buscar en el árbol de números hay que crear una instancia del 
+    árbol con el número buscado. Entonces se invoca el método buscar
+    tal como se muestra a continuación:
 
+        System.out.println("Inicio de la búsqueda del número");
+        ArbolA a = new ArbolA(38);
+        NodoA nodoEncontrado = a.buscar();
+        
+        if (nodoEncontrado != null) {
+            System.out.println(" ** Encontrado **  \n"+nodoEncontrado.toString());
+        } else {
+            System.out.println("No encontrado");
+        }
+        
+        System.out.println("Rastro de la búsqueda: \n"+a.rastro);
+*/
 import java.util.Arrays;
 
 /**
