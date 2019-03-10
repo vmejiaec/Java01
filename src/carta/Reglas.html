@@ -1,25 +1,29 @@
 <!DOCTYPE html>
 <html>
-    <head>
+    <head>        
         <title>Reglas del juego de cartas</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link href="css/style.css" rel="stylesheet" type="text/css"/>
+        <link href="css/bootstrap.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
+        <div class="container">
         <h1>Reglas del juego de cartas</h1>
         <h2>Borrador 1.0</h2>
-        <div>
-            <div class="subencabezado">
+
+            <div class="alert alert-primary">
                 Introducción
             </div>
-<ol>
-    <li> Las cartas están compuestas por flechas (de 0 a 8) que indican 
+
+ Las cartas están compuestas por flechas (de 0 a 8) que indican 
         direcciones (arriba, abajo, derecha, izquierda y las 4 diagonales) 
         y por 4 números (o letras).
-    <li> El juego consiste en colocar las cartas (5 cada uno) en una cuadrícula 
+        
+ El juego consiste en colocar las cartas (5 cada uno) en una cuadrícula 
         de 4x4 que puede tener algunas casillas ocupadas.
-    <li> Cuando colocas una carta sus flechas apuntarán a algunas casillas, 
+ Cuando colocas una carta sus flechas apuntarán a algunas casillas, 
         si una casilla está ocupada por una carta del rival pueden pasar 2 cosas:
         <ol>
             <li> La carta no tiene una flecha apuntando hacia la tuya. En este 
@@ -28,11 +32,15 @@
                 la tuya. En este caso hay un combate y el ganador se queda la 
                 carta del rival.
         </ol>
-    <li> Cuando una carta cambia de propietario cuenta como si ésta hubiese sido 
+        <p>
+        Cuando una carta cambia de propietario cuenta como si ésta hubiese sido 
         colocada de nuevo y “luchará” contra las cartas rivales que apunten sus flechas.
-    <li> Cuando finalice la partida gana aquel con más cartas volcadas.
-    </ol>
-    <div class="subencabezado">
+        </p>
+        <p>
+        Cuando finalice la partida gana aquel con más cartas volcadas.
+        </p>
+    
+    <div class="alert alert-primary">
                 ¿Cómo saber si puedo ganar un combate?
     </div>
 <ol>
@@ -53,75 +61,199 @@
             <li>A: ataca al valor más bajo del rival (mínimo entre el 1º,3º y 4º números).
         </ol>
 
-    <li> Los dígitos de ataque y defensa (1º,3º,4º) varían entre 0 y 15 en escala hexadecimal:
-0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A (=10), B (=11), C (=12), D (=13), E (=14), F (=15). Siendo 0 el mínimo y F el máximo
-
-La fuerza del ataque se determina siguiendo la fórmula siguiente:
-Sea X el número de ataque (1º dígito):
-Se escoge un número aleatorio, Y, entre 15*(X-1) y 15*(X). Es decir:
-15(X-1) <= Y <= 15*X
-
-(El * indica multiplicación y “<=” se lee “más pequeño o igual que” .
-Después se escoge un valor aleatorio entre 0 e Y, llamémosle Z:
-0 <= Z <= Y.
-Z será nuestro ataque.
+    <li> Los dígitos de ataque y defensa (1º,3º,4º) varían entre 0 y 15 en 
+        escala hexadecimal: 
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 
+        A (=10), B (=11), C (=12), D (=13), E (=14), F (=15). 
+        Siendo 0 el mínimo y F el máximo
+</ol>
+<div class="alert alert-primary" role="alert">
+  Fuerza 
+</div>
+        <p>La fuerza del ataque se determina siguiendo la fórmula siguiente:
+            Sea X el número de ataque (1º dígito):
+            Se escoge un número aleatorio, Y, entre 15*(X-1) y 15*(X). Es decir:
+            15(X-1) <= Y <= 15*X
+        </p>
+        <p>
+            (El * indica multiplicación y “<=” se lee “más pequeño o igual que” .
+            Después se escoge un valor aleatorio entre 0 e Y, llamémosle Z:
+            0 <= Z <= Y. Z será nuestro ataque.
+        </p>
 
 El número de defensa se calcula igual usando como X el número que marque el tipo de ataque de la carta atacante:
-
+<br>
 El atacante tiene una Fà 3º dígito
+<br>
 
 El atacante tiene una Mà 4º dígito
+<br>
 
 El atacante tiene una Xà mínimo entre 3º y 4º.
+<br>
 
 El atacante tiene una Aà mínimo entre 1º, 3º y 4º.
+<br>
 
-Normalmente tener un número de ataque superior a la defensa correspondiente es suficiente para ganar, pero no siempreTenemos la carta 5X31 vs 2M32, atacante 5X31, defensora 2M32.
+Normalmente tener un número de ataque superior a la defensa correspondiente es 
+suficiente para ganar, pero no siempreTenemos la carta 5X31 vs 2M32, 
+atacante 5X31, defensora 2M32.
+<br>
 
-Ataque = 5, por tanto X=5. El juego calcula un numero aleatorio entre 15*4 y 15*5 [4 y 5, en la formula, son X-1 y X], es decir, 60 y 75, supongamos que escoge 63. Y=63.
+Ataque = 5, por tanto X=5. 
+<br>
+
+El juego calcula un numero aleatorio entre 15*4 y 15*5 [4 y 5, 
+en la formula, son X-1 y X], es decir, 60 y 75, supongamos que escoge 63. Y=63.
+<br>
+
 El juego calcula un valor aleatorio entre 0 y 63, por ejemplo, 41. Z=41.
 Tenemos un ataque de 41.
+<br>
 
 La defensa:
-El ataque es Tipo X (defensa ams debil), hay defensa fisica 3 y magica 2, la ams debil es la magica, es decir, 2. Este sera el valor en la defensa, X=2.
+<br>
+
+El ataque es Tipo X (defensa ams debil), hay defensa fisica 3 y magica 2, 
+la ams debil es la magica, es decir, 2. 
+<br>
+
+Este sera el valor en la defensa, X=2.
+<br>
+
 Numero aleatorio entre 15*1 y 15*2, es decir, 15 y 30, por ejemplo, 29. Y=29.
 Ahora uno aleatorio entre 0 y 29, pogamos 10. Z=10.
+<br>
+
 Atacante vs defensor = 41 vs 10, gana 41---> gana la carta atacante 5X31.
 Ahora bien, normalmente pasara esto, gana 5X31, pero sit ienes mala suerte:
 X=5, escogemos un numero aleatorio entre 60 y 75, sale 61.
 Y=61, escogemos numero aleatorio entre 0 y 61, sale 1.
 Z=1 es el ataque final.
+<br>
+
 SI la defensa sale como ante, 41, ganaria la carta 2M32.
+<br>
 
 
 Lo has entendido ahora? Sino, di que paso no entiendes.
-Consejo: Como la parte aleatoria no depende de ti, para aumentar las probabilidades de gaanr, simplemente ten ams ataque que defensa tu rival, es decir, miras el TIPOD E ATAQUE (P,M,X,A), el digito de defensa del rival que corresponde (fisica, magica, ams debil...) y cuando tengas la defensa, mira tu ataque, sie s mas alto, mas posibilidades de ganar 
+Consejo: Como la parte aleatoria no depende de ti, para aumentar las 
+probabilidades de gaanr, simplemente ten ams ataque que defensa tu rival, 
+es decir, miras el TIPOD E ATAQUE (P,M,X,A), 
+el digito de defensa del rival que corresponde 
+(fisica, magica, ams debil...) 
+y cuando tengas la defensa, mira tu ataque, sie s mas alto, 
+mas posibilidades de ganar 
+<br>
 
 
-Hola quisiera hacer una pequeña acotacion, en la explicacion falta un pequeño detalle, pero creo que seria bueno que lo explicara desde el pricipio pero si ustedes creen que redundante mi post, pueden borraro.
- 
-1 - las cartas estan representado por cuatro valores (3P60) lo cual:
-    1º - indica el nivel de ataque
-    2º - indica el tipo de ataque
-    3º - indica el nivel de defensa fisica
-    4º - indica el nivel de defensa magica
-2 - Existen cuatro tipos de ataques (2º)
-    P = tipo fisicos, ataca directamente a la defensa fisica del oponente (3º)
-    M = tipo magico, ataca directamente a la defensa magica del oponente (4º)
-    X = tipo flexible, ataca a la defensa mas debil, sea fisica o magica (3º o 4º)
-    A = tipo asalto, considera el nivel de ataque de la carta oponente como un tipo de defensa, por lo tanto atacara a la defensa mas debil, sea fisica o magica (1º o 3º o 4º)
-3 - Los niveles de las cartas (1º, 3º y 4º)
-        Cada nivel de las cartas posee un rango numerico conocido como Hit Points (hp) por lo cual estan definido por la formula citada por mml-Darkfire. como para muchos es algo complicado interpretar las formulas tenemos la siguiente tabla.
- 
-Nivel 	Mínimo hp	Máximo hp	Nivel	Mínimo hp	Máximo hp
-0	000	015	8	128	143
-1	016	031	9	144	159
-2	032	047	A	160	175
-3	048	063	B	176	191
-4	064	079	C	192	207
-5	080	095	D	208	223
-6	096	111	E	224	239
-7	112	127	F	240	255
+Hola quisiera hacer una pequeña acotacion, en la explicacion falta un pequeño 
+detalle, pero creo que seria bueno que lo explicara desde el pricipio pero si 
+ustedes creen que redundante mi post, pueden borraro.
+<br>
+<ol>
+    <li>
+        1 - las cartas estan representado por cuatro valores (3P60) lo cual:
+        <ol>
+            <li>
+                1º - indica el nivel de ataque
+            </li>
+            <li>
+                2º - indica el tipo de ataque
+            </li>
+            <li>
+                3º - indica el nivel de defensa fisica
+            </li>
+            <li>
+                4º - indica el nivel de defensa magica
+            </li>
+        </ol>  
+    </li>
+    <li>
+        2 - Existen cuatro tipos de ataques (2º)
+        <ol>
+            <li>
+                P = tipo fisicos, ataca directamente a la defensa fisica del oponente (3º)
+            </li>
+            <li>
+                M = tipo magico, ataca directamente a la defensa magica del oponente (4º)
+            </li>
+            <li>
+                X = tipo flexible, ataca a la defensa mas debil, sea fisica o magica (3º o 4º)
+            </li>
+            <li>
+                A = tipo asalto, considera el nivel de ataque de la carta oponente 
+                como un tipo de defensa, por lo tanto atacara a la defensa mas debil, 
+                sea fisica o magica (1º o 3º o 4º)
+            </li>
+        </ol>
+
+    </li>
+    <li>
+        3 - Los niveles de las cartas (1º, 3º y 4º)
+        Cada nivel de las cartas posee un rango numerico conocido como Hit Points (hp) 
+        por lo cual estan definido por la formula citada por mml-Darkfire. 
+        como para muchos es algo complicado interpretar las formulas tenemos 
+        la siguiente tabla.
+    </li>
+
+</ol>
+
+<div class="table-responsive">
+    <table class="table table-hover table-striped">
+        <tr>
+            <th>Nivel</th> <th>Mínimo hp</th> <th>Máximo hp</th>
+        </tr>
+        <tr>
+            <td> 0</td>	 <td>000</td> <td>015</td>
+        </tr>
+        <tr>
+            <td> 1</td> <td>016</td> <td>031</td>
+        </tr>
+        <tr>
+            <td> 2</td> <td>032</td> <td>047</td>
+        </tr>
+        <tr>
+            <td> 3</td> <td>048</td> <td>063</td>
+        </tr>
+        <tr>
+            <td> 4</td> <td>064</td> <td>079</td>
+        </tr>
+        <tr>
+            <td> 5</td> <td>080</td> <td>095</td>
+        </tr>
+        <tr>
+            <td> 6</td> <td>066</td> <td>111</td>
+        </tr>
+        <tr>
+            <td> 7</td> <td>112</td> <td>127</td>
+        </tr>
+        <tr>
+            <td> 8</td> <td>128</td> <td>143</td>
+        </tr>
+        <tr>
+            <td> 9</td> <td>144</td> <td>159</td>
+        </tr>
+        <tr>
+            <td> A</td> <td>160 </td> <td>175 </td>
+        </tr>
+        <tr>
+            <td> B</td> <td>176 </td> <td>191 </td>
+        </tr>
+        <tr>
+            <td> C</td> <td>192 </td> <td>207 </td>
+        </tr>
+        <tr>
+            <td> D</td> <td> 208</td> <td> 223</td>
+        </tr>
+        <tr>
+            <td> E</td> <td> 224</td> <td> 239</td>
+        </tr>
+        <tr>
+            <td> F</td> <td> 240</td> <td> 255</td>
+        </tr>
+</table>
+</div>
 Los niveles estan en hexadecimal desde (0 hasta F) lo que equivale de igual manera, desde (0 hasta 15)
 El criterio que se utilizo para llenar la tabla segun el rango de hp para cada nivel fue, 
         (16 x Nivel) = hp    como valor minimo de hp
@@ -164,7 +296,11 @@ El primer dígito es de ataque, el segundo (la letra) es el modo de ataque y los
 En el segundo dígito una "P" significa que atacas al primero de defensa de la otra carta, una "M" significa que atacas al segundo, una "X" que atacas a cualquiera de los dos y una "A" significa que atacas al más débil.
 
 Cuando dos flechas de cartas se juntan se produce una batalla. Se le asigna un número a cada carta (dependiendo del dígito que tenga) y se hace una resta a ese número. El número que se resta es fijado por suerte. El que al final tenga un número mayor gana y levanta la carta rival y todas la que estén tocando con sus flechas.
-</ol>
+
         </div>
+        
+        <script src="js/jquery-3.3.1.js" ></script>
+        <script src="js/popper.js" ></script>
+        <script src="js/bootstrap.js" ></script>
     </body>
 </html>
