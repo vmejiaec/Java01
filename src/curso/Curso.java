@@ -1,22 +1,19 @@
 package curso;
 
+import carta.Carta;
+import carta.FuenteCartas;
+import java.util.Arrays;
+
 public class Curso {
 
     /**
-     * @param args the command line arguments
+     * Pruebas con las cartas de Final Fantasy IX
      */
     public static void main(String[] args) {
-        System.out.println("Inicio de la búsqueda del número");
-        ArbolA a = new ArbolA(38);
-        NodoA nodoEncontrado = a.buscar();
-        
-        if (nodoEncontrado != null) {
-            System.out.println(" ** Encontrado **  \n"+nodoEncontrado.toString());
-        } else {
-            System.out.println("No encontrado");
-        }
-        
-        System.out.println("Rastro de la búsqueda: \n"+a.rastro);
+        System.out.println("Carta: \n");
+        Carta c = new Carta();
+        System.out.print(c);
+        FuenteCartas fc = new FuenteCartas();
+        System.out.print(Arrays.toString( fc.muestra1()));
     }
-    
 }
