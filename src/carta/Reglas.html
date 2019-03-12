@@ -257,28 +257,71 @@ ustedes creen que redundante mi post, pueden borraro.
 </table>
 </div>
 Los niveles estan en hexadecimal desde (0 hasta F) lo que equivale de igual manera, desde (0 hasta 15)
-El criterio que se utilizo para llenar la tabla segun el rango de hp para cada nivel fue, 
-        (16 x Nivel) = hp    como valor minimo de hp
-        ((16 x Nivel) + 15) = hp,    como valor maximo de hp
-4 - La logica o el algoritmo de la lucha, esta basada en 3 fases
-          Carta A (5P33) Atacante
-          Carta B (2M10) Defensor
-Primera fase
-- La Carta A ataca con 5P (1º y 2º), osea Nivel 5 de fuerza fisica, entre (80-95)hp, luego eligue un numero al azar entre esos valores, digamos 85hp
--Como el ataque es fisico, la Carta B tendra que defender con su nivel fisico de defesa, osea Nivel 1 de defensa fisica, entre (16-31)hp, luego se eligue un numero al azar entre esos valores, digamos 23hp
-Segunda Fase
-- Se escoge un numero al azar entre (0-85)hp de la Carta A (atacante), digamos 71hp
-- se escoge un numero al azar entre (0-23)hp de la Carta B (Defensora), digamos 3hp
-Tercera face (elpequeño detalle que ya mencione) 
-    se realiza una resta entre los valores de la Primera fase y la Segunda fase
-    Carta A (Atacante)        85hp - 71hp = 14hp de ataque
-    Carta B (Defensora)       23hp - 3 hp = 20 hp de defensa
+El criterio que se utilizo para llenar la tabla segun el rango de hp para cada nivel fue,
+
+<ul>
+    <li>(16 x Nivel) = hp    como valor minimo de hp</li>
+    <li>((16 x Nivel) + 15) = hp,    como valor maximo de hp</li>
+</ul>
+
+<h3>La lucha de las cartas</h3>
+La logica o el algoritmo de la lucha, esta basada en 3 fases
+<ul>
+    <li>Carta A (5P33) Atacante</li>
+    <li>Carta B (2M10) Defensor</li>
+</ul>
+<br>
+
+<h4>Primera fase</h4>
+<ul>
+    <li>
+        La Carta A ataca con 5P (1º y 2º), osea Nivel 5 de fuerza fisica, 
+        entre (80-95)hp, luego eligue un numero al azar entre esos valores, 
+        digamos 85hp
+    </li>
+    <li>
+        Como el ataque es fisico, la Carta B tendra que defender con su nivel 
+        fisico de defesa, osea Nivel 1 de defensa fisica, entre (16-31)hp, 
+        luego se eligue un numero al azar entre esos valores, digamos 23hp
+    </li>
+</ul>
+
+<h4>Segunda Fase</h4>
+<ul>
+    <li>
+        Se escoge un numero al azar entre (0-85)hp de la Carta A (atacante), 
+        digamos 71hp
+    </li>
+    <li>
+        se escoge un numero al azar entre (0-23)hp de la Carta B (Defensora), 
+        digamos 3hp
+    </li>
+</ul>
+
+<h4>Tercera face </h4>
+El pequeño detalle que ya mencione: se realiza una resta entre los valores de 
+la Primera fase y la Segunda fase
+<ul>
+    <li>Carta A (Atacante)        85hp - 71hp = 14hp de ataque</li>
+    <li>Carta B (Defensora)       23hp - 3 hp = 20 hp de defensa</li>
+</ul>
+<h4>Combate</h4>
 Luego se produce el combate
-Carta A vs Carta B        o        14hp vs 20hp      o        (5P33) vs (2M10)
-Claramente vemos que la defensa de la Carta B (Defensora) es mayor, por tanto gana el combate por una diferencia de 6hp, es decir
-                        |14-20|hp = 6hp        victoria para la Carta B
-Obs: para los q no conocen el concepto de valor absoluto, la ultima resta haganla con el Numero mas alto menos el mas bajo para que no les quede negativo la diferencia de hp, y por logica gana el que fiene el hp mas alto....
- 
+<ul>
+    <li>Carta A vs Carta B, o</li>
+    <li>14hp vs 20hp, o</li>
+    <li>(5P33) vs (2M10)</li>
+</ul>
+
+Claramente vemos que la defensa de la Carta B (Defensora) es mayor, por tanto 
+gana el combate por una diferencia de 6hp, es decir
+<br>
+|14-20|hp = 6hp        victoria para la Carta B
+<br>
+Obs: para los q no conocen el concepto de valor absoluto, la ultima resta 
+haganla con el Numero mas alto menos el mas bajo para que no les quede negativo 
+la diferencia de hp, y por logica gana el que fiene el hp mas alto....
+ <br>
 Espero les sirva aun que ya se ha repetido mucho en el foro, de cualquier manera, si tienen dudas, pueden recurrir al link en donde obtuve la informacion que ya mencione.
 Referencias: http://finalfantasy.wikia.com/wiki/Tetra_Master
 y si quieren ver toda la variedad de cartas con su tipo de ataque y sus niveles de fuerza, pueden visitar el lik siguiente.

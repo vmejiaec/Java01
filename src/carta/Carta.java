@@ -6,6 +6,7 @@
 package carta;
 
 import java.util.Arrays;
+import java.util.Random;
 
 /**
  *
@@ -14,25 +15,46 @@ import java.util.Arrays;
 public class Carta {
     
     String nombre;
-    int ataque;
+    
+    public boolean esquinas[];
+    
     public enum AtaqueTipo {FISICO, MAGICO, ESPECIAL, AVANZADO};
     AtaqueTipo ataqueTipo = AtaqueTipo.FISICO;
-    int defensaFisica;
-    int defensaMagica;
-    boolean esquinas[];
-    int hitpoint;
+    
+    int nivelAtaque;
+    int nivelDefensaFisica;
+    int nivelDefensaMagica;
+    
+    int hpAtaque;
+    int hpDefensaFisica;
+    int hpDefensaMagica;
+    
+    // Obtiene random del nivel 
+    public int getHP(int nivel){
+        Random ran = new Random();
+        int hp = ran.nextInt(16);
+        return hp + nivel * 16;
+    }
+    
+    // Obtiene random desde cero hasta un valor maximo
+    public int getRand(int max){
+        Random ran = new Random();
+        if (max <= 0){
+            return 0;
+        }
+        int n = ran.nextInt(max);
+        return n;
+    }
     
     // Constructores
     public Carta(){
         nombre = "S/N";
-        esquinas = new boolean[8];
-        hitpoint = 0;
+        esquinas = new boolean[8];        
         analiza("1F23","000-0-000-0");
     }
     
-    public Carta(String nombre, int hp, String valores, String esquinas){
+    public Carta(String nombre, String valores, String esquinas){
         this.nombre = nombre;
-        this.hitpoint = hp;
         this.esquinas = new boolean[8];
         analiza(valores, esquinas);
     }
@@ -53,10 +75,10 @@ public class Carta {
     // valores de ataque, defensa, etc.
     public void analiza(String valores, String esquinas){
         char tmp[] = valores.toCharArray();
-        ataque = tmp[0]-48;
         ataqueTipo = charToTipo(tmp[1]);
-        defensaFisica = tmp[2]-48;
-        defensaMagica = tmp[3]-48;
+        nivelAtaque = tmp[0]-48;        
+        nivelDefensaFisica = tmp[2]-48;
+        nivelDefensaMagica = tmp[3]-48;
         char cEsquinas[] = (esquinas.replace("-", "")).toCharArray();
         for(int i=0;i<8;i++){
             this.esquinas[i]= (cEsquinas[i]!='0');
@@ -68,17 +90,72 @@ public class Carta {
         carta que gana o empate
         adicionalmente indica la traza de cálculos
     */
-    public Carta combate(Carta oponente, int noEsquina){
+    
+    public void calculaHPs(){
+        hpAtaque = getHP(nivelAtaque);
+        hpDefensaFisica = getHP(nivelDefensaFisica);
+        hpDefensaMagica = getHP(nivelDefensaMagica);
+    }
+    
+    public String combate(Carta op, int noEsquina){
+        String quienGana = "*";
+        //if (esquinas[noEsquina] && op.esquinas[noEsquina]){
+            
+            // Calcula hps
+            calculaHPs();
+            op.calculaHPs();
+            // Procede de acuerdo con el tipo de ataque            
+            switch(ataqueTipo){
+                case FISICO:
+                    int ataque = hpAtaque;
+                    int defensa = op.hpDefensaFisica;
+                    quienGana += " A1:" + ataque + " F1: " + defensa;
+                    ataque = getRand(ataque);
+                    defensa = getRand(defensa);
+                    quienGana += " A2:" + ataque + " F2: " + defensa;
+                    if (ataque > defensa) quienGana += " <Gana Atacante>";
+                    if (ataque == defensa) quienGana += " <Empate>";
+                    if (ataque < defensa) quienGana += " <Gana Defensor>";
+                    break;
+                case MAGICO:
+                    ataque = hpAtaque;
+                    defensa = op.hpDefensaMagica;
+                    quienGana += " A1:" + ataque + " M1: " + defensa;
+                    ataque = getRand(ataque);
+                    defensa = getRand(defensa);
+                    quienGana += " A2:" + ataque + " M2: " + defensa;
+                    if (ataque > defensa) quienGana += " <Gana Atacante>";
+                    if (ataque == defensa) quienGana += " <Empate>";
+                    if (ataque < defensa) quienGana += " <Gana Defensor>";
+                    break;
+                case ESPECIAL:
+                    ataque = hpAtaque;
+                    defensa =   op.hpDefensaFisica < op.hpDefensaMagica ? 
+                                    op.hpDefensaFisica :
+                                    op.hpDefensaMagica ;
+                    ataque = getRand(ataque);
+                    defensa = getRand(defensa);
+                    if (ataque > defensa) quienGana = "Gana Atacante";
+                    if (ataque == defensa) quienGana = "Empate";
+                    if (ataque < defensa) quienGana = "Gana Defensor";
+                    break;
+                case AVANZADO:
+                    ataque = hpAtaque;
+                    defensa =   op.hpAtaque < op.hpDefensaFisica ? 
+                                    op.hpAtaque < op.hpDefensaMagica ?
+                                        op.hpAtaque : op.hpDefensaMagica :
+                                    op.hpDefensaFisica < op.hpDefensaMagica ?
+                                        op.hpDefensaFisica : op.hpDefensaMagica;
+                    ataque = getRand(ataque);
+                    defensa = getRand(defensa);
+                    if (ataque > defensa) quienGana = "Gana Atacante";
+                    if (ataque == defensa) quienGana = "Empate";
+                    if (ataque < defensa) quienGana = "Gana Defensor";
+                    break;
+            }
+        //}
         
-        // Si no comparten esquina es empate
-        
-        // Si la oponente no tiene esquina entonces gana la carta this
-        
-        // Si la oponente tiene esquina y this no la tiene gana la opoenente
-        
-        // Si ambas comparten esquina, entonces van a pelear
-        
-        return this;
+        return quienGana;
     }
     
     /*
@@ -91,11 +168,10 @@ public class Carta {
         for(int i=0;i<8;i++) esq += esquinas[i]? 1:0;
         String resp =
                "["+nombre+"] "+               
-               " Atq:" + " ("+ ataque + " " + ataqueTipo +")" +
-               "\t\thp(" + hitpoint + ")"+
+               "\t\tAtq:" + " ("+ nivelAtaque + " " + ataqueTipo +")" +
                " Def:" +
-               " Fis(" + defensaFisica +") "+
-               " Mag(" + defensaMagica +"). " +
+               " Fis(" + nivelDefensaFisica +") "+
+               " Mag(" + nivelDefensaMagica +"). " +
                " {"+esq+"}" +
                "\n";
         return resp;
