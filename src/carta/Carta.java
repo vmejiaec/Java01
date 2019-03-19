@@ -13,11 +13,11 @@ import java.util.Random;
  * @author Victor
  */
 public class Carta {
-    
+    //Atributos
     String nombre;
-    
+    String valores;
     public boolean esquinas[];
-    
+    Boolean esPiedra=false;
     public enum AtaqueTipo {FISICO, MAGICO, ESPECIAL, AVANZADO};
     AtaqueTipo ataqueTipo = AtaqueTipo.FISICO;
     
@@ -38,25 +38,38 @@ public class Carta {
     
     // Obtiene random desde cero hasta un valor maximo
     public int getRand(int max){
+        // Valida que no sea ni negativo ni cero.
+        if (max <= 0) return 0;
         Random ran = new Random();
-        if (max <= 0){
-            return 0;
-        }
         int n = ran.nextInt(max);
         return n;
     }
     
     // Constructores
     public Carta(){
-        nombre = "S/N";
-        esquinas = new boolean[8];        
-        analiza("1F23","000-0-000-0");
+        nombre = "";
+        esquinas = new boolean[8];
+        valores = "0F00";
+        analiza("000-0-000-0");
     }
     
     public Carta(String nombre, String valores, String esquinas){
         this.nombre = nombre;
+        this.valores = valores;
         this.esquinas = new boolean[8];
-        analiza(valores, esquinas);
+        analiza(esquinas);
+    }
+    
+    /*
+        Carta vacia para simular las piedras 
+        que se colocan en la mesa al inicio 
+        del juego.
+    */
+    
+    public static Carta CartaPiedra(){
+        Carta c = new Carta("Piedra","0F00","000-0-000-0");
+        c.esPiedra = true;
+        return c;
     }
     
     /*
@@ -73,7 +86,7 @@ public class Carta {
     
     // Analiza el string de propiedades para obtener los
     // valores de ataque, defensa, etc.
-    public void analiza(String valores, String esquinas){
+    public void analiza(String esquinas){
         char tmp[] = valores.toCharArray();
         ataqueTipo = charToTipo(tmp[1]);
         nivelAtaque = tmp[0]-48;        
@@ -156,6 +169,56 @@ public class Carta {
         //}
         
         return quienGana;
+    }
+    
+    /*
+    Imprime la carta en el siguiente formato
+    donde los número se pueden reemplazar con los
+    caracteres, incluyendo al espacio en blanco.
+    
+        \ A /
+        <   >
+        / V \
+    
+            [0]¯¯1¯¯[2]
+            |   abcd  |
+            [7]carta[3]
+            |   efg   |
+            [6]__5__[4]
+    */
+    public String dibujaCarta(){
+        String res="";
+        String formato = 
+                "|0¯¯¯1¯¯¯2|"+"\n"+
+                "|  abcde  |"+"\n"+
+                "[7 efghi 3]"+"\n"+
+                "|  jklmn  |"+"\n"+
+                "|6___5___4|"+"\n"
+                ;
+        res = formato;
+        // Coloca las esquinas
+        for (int i=0;i<8;i++){
+            if (i==0) res = res.replace("0",this.esquinas[0]?"\\":"¯");
+            if (i==1) res = res.replace("1",this.esquinas[1]? "A":" ");
+            if (i==2) res = res.replace("2",this.esquinas[2]? "/":"¯");
+            if (i==3) res = res.replace("3]",this.esquinas[3]? " >":" (");
+            if (i==4) res = res.replace("4",this.esquinas[4]?"\\":"_");
+            if (i==5) res = res.replace("5",this.esquinas[5]? "V":" ");
+            if (i==6) res = res.replace("6",this.esquinas[6]? "/":"_");
+            if (i==7) res = res.replace("[7",this.esquinas[7]? "< ":") ");
+        }
+        // Coloca valores
+        res = res.replace("abcde",this.valores.substring(0, 1)+" "+this.valores.substring(1));
+        // Colaca mensaje
+        res = res.replace("jklmn", "     ");
+        // Coloca el nombre de la carta
+        res = res.replace("efghi", String.format("%1$-5s",this.nombre).substring(0, 5));
+        // Si es piedra le quitamos los valores
+        if (esPiedra) {
+            res = res.replace("0 F00", "     "); 
+            res = res.replace("Piedr"," [ ] ");
+        }
+        return res;
     }
     
     /*
