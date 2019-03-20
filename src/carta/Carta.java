@@ -17,7 +17,12 @@ public class Carta {
     String nombre;
     String valores;
     public boolean esquinas[];
+    
     Boolean esPiedra=false;
+    Boolean esVacio = false;
+    public String perteneceA="";
+    int pos[];
+    
     public enum AtaqueTipo {FISICO, MAGICO, ESPECIAL, AVANZADO};
     AtaqueTipo ataqueTipo = AtaqueTipo.FISICO;
     
@@ -28,6 +33,8 @@ public class Carta {
     int hpAtaque;
     int hpDefensaFisica;
     int hpDefensaMagica;
+    
+    String mensaje="";
     
     // Obtiene random del nivel 
     public int getHP(int nivel){
@@ -61,7 +68,15 @@ public class Carta {
     }
     
     /*
-        Carta vacia para simular las piedras 
+    Mensaje para publicar en la representación
+    gráfica de la carta
+    */
+    public void setMensaje(String msg){
+        this.mensaje = msg;
+    }
+    
+    /*
+        Carta para simular las piedras 
         que se colocan en la mesa al inicio 
         del juego.
     */
@@ -69,6 +84,18 @@ public class Carta {
     public static Carta CartaPiedra(){
         Carta c = new Carta("Piedra","0F00","000-0-000-0");
         c.esPiedra = true;
+        return c;
+    }
+    
+    /*
+        Carta para simular el vacio en el campo
+        donde se colocarán el resto de cartas 
+        del juego.
+    */
+    
+    public static Carta CartaVacio(){
+        Carta c = new Carta("Vacio","0F00","000-0-000-0");
+        c.esVacio = true;
         return c;
     }
     
@@ -186,7 +213,7 @@ public class Carta {
             |   efg   |
             [6]__5__[4]
     */
-    public String dibujaCarta(){
+    public String dibuja(){
         String res="";
         String formato = 
                 "|0¯¯¯1¯¯¯2|"+"\n"+
@@ -210,13 +237,26 @@ public class Carta {
         // Coloca valores
         res = res.replace("abcde",this.valores.substring(0, 1)+" "+this.valores.substring(1));
         // Colaca mensaje
-        res = res.replace("jklmn", "     ");
+        res = res.replace("jklmn",String.format("%1$-5s",this.mensaje).substring(0, 5));
         // Coloca el nombre de la carta
         res = res.replace("efghi", String.format("%1$-5s",this.nombre).substring(0, 5));
         // Si es piedra le quitamos los valores
         if (esPiedra) {
             res = res.replace("0 F00", "     "); 
             res = res.replace("Piedr"," [ ] ");
+            res = res.replace("(","|");
+            res = res.replace(")","|");
+        }
+        // Si es vacio le quitamos casi todo
+        if (esVacio){
+            res = res.replace("0 F00", "     ");
+            res = res.replace("Vacio","     ");
+            res = res.replace("|",".");
+            res = res.replace("¯",".");
+            res = res.replace("_",".");
+            res = res.replace("(",".");
+            res = res.replace(")",".");
+            res = res.replace(".....",". . .");
         }
         return res;
     }

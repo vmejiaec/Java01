@@ -15,7 +15,7 @@ public class FuenteCartas {
     }
     
     // Cartas de prueba 
-    public Carta[] muestra1(){
+    public static Carta[] muestra1(){
         return new Carta[]{
             new Carta("Blanco",     "4M15", "000-0-011-0"),
             new Carta("Planta",     "2M02", "011-1-100-0"),

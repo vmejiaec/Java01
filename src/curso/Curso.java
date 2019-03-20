@@ -2,6 +2,7 @@ package curso;
 
 import carta.Carta;
 import carta.FuenteCartas;
+import carta.Mesa;
 import carta.StringTools;
 import java.util.Arrays;
 
@@ -12,23 +13,27 @@ public class Curso {
      */
     public static void main(String[] args) {
         System.out.println("Pelea de cartas: \n");
-        Carta c = new Carta();
-        System.out.println(c);
-        System.out.println(c.dibujaCarta());
-        FuenteCartas fc = new FuenteCartas();
-        Carta[] cartas = fc.muestra1();
-        String A = cartas[0].dibujaCarta();
-        String B = cartas[3].dibujaCarta();
-        String C = cartas[1].dibujaCarta();
-        String D = cartas[5].dibujaCarta();
-        String E = cartas[2].dibujaCarta();
-        String F = cartas[4].dibujaCarta();
-        String G = cartas[8].dibujaCarta();
-        String X = Carta.CartaPiedra().dibujaCarta();
+        Carta tmp = new Carta();
+        Carta[] cartas = FuenteCartas.muestra1();
         
-        System.out.print(StringTools.Encadena4Lineas(A, E, X, D));
-        System.out.print(StringTools.Encadena4Lineas(B, X, F, A));
-        System.out.print(StringTools.Encadena4Lineas(C, B, G, X));
-        System.out.println(StringTools.Encadena4Lineas(A, D, E, X));
+        
+        Mesa mesa = new Mesa();
+        //Colocamos las piedras
+        mesa.piedras = new int[][]{{0,2},{0,3},{1,1},{2,3},{3,3}};
+        // Armo los masos A y B con cinco cartas cada uno
+        mesa.mazoA = new Carta[]{cartas[0],cartas[2],cartas[4],cartas[6], cartas[8]};
+        mesa.mazoB = new Carta[]{cartas[1],cartas[2],cartas[5],cartas[7], cartas[9]};
+        // Prepara la mesa
+        mesa.preparar();
+        System.out.println(mesa.dibuja());
+        // Pongo la primera carta
+        mesa.A_Juega(2,new int[]{1,0});
+        System.out.println(mesa.dibuja());
+        // Pongo la segunda carta
+        mesa.B_Juega(2,new int[]{0,1});
+        System.out.println(mesa.dibuja());
+        // Verifica si hay pelea 
+        // Pelea
+        System.out.println(mesa.campo[0][1].combate(mesa.campo[1][0], 7));
     }
 }

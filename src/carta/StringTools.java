@@ -25,4 +25,11 @@ public  class StringTools {
         String ABCD = Encadena2Lineas(AB, CD);
         return ABCD;
     }
+    public static String Encadena5Lineas(String A, String B, String C, String D, String E){
+        String AB = Encadena2Lineas(A, B);
+        String CD = Encadena2Lineas(C, D);
+        String ABCD = Encadena2Lineas(AB, CD);
+        String ABCDE = Encadena2Lineas(ABCD, E);
+        return ABCDE;
+    }
 }
