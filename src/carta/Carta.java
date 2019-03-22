@@ -16,7 +16,8 @@ public class Carta {
     //Atributos
     String nombre;
     String valores;
-    public boolean esquinas[];
+    public boolean esquinas[][]= new boolean[3][3] ;
+     
     
     Boolean esPiedra=false;
     Boolean esVacio = false;
@@ -55,15 +56,15 @@ public class Carta {
     // Constructores
     public Carta(){
         nombre = "";
-        esquinas = new boolean[8];
+        esquinas = new boolean[3][3];
         valores = "0F00";
-        analiza("000-0-000-0");
+        analiza("000-000-000");
     }
     
     public Carta(String nombre, String valores, String esquinas){
         this.nombre = nombre;
         this.valores = valores;
-        this.esquinas = new boolean[8];
+        this.esquinas = new boolean[3][3];
         analiza(esquinas);
     }
     
@@ -82,7 +83,8 @@ public class Carta {
     */
     
     public static Carta CartaPiedra(){
-        Carta c = new Carta("Piedra","0F00","000-0-000-0");
+        Carta c = new Carta();
+        c.nombre="Piedra";
         c.esPiedra = true;
         return c;
     }
@@ -94,7 +96,8 @@ public class Carta {
     */
     
     public static Carta CartaVacio(){
-        Carta c = new Carta("Vacio","0F00","000-0-000-0");
+        Carta c = new Carta();
+        c.nombre="Vacio"; 
         c.esVacio = true;
         return c;
     }
@@ -120,8 +123,19 @@ public class Carta {
         nivelDefensaFisica = tmp[2]-48;
         nivelDefensaMagica = tmp[3]-48;
         char cEsquinas[] = (esquinas.replace("-", "")).toCharArray();
-        for(int i=0;i<8;i++){
-            this.esquinas[i]= (cEsquinas[i]!='0');
+        for(int i=0;i<9;i++){
+            boolean esFlecha = cEsquinas[i]!='0';
+            // A las esquinas se les suma 1 para respetar el índice, luego
+            // hay que restarlo para volver a la interpretación inicial
+            if (i==0) this.esquinas[-1+1][-1+1]= esFlecha; 
+            if (i==1) this.esquinas[-1+1][ 0+1]= esFlecha; 
+            if (i==2) this.esquinas[-1+1][ 1+1]= esFlecha;
+            if (i==3) this.esquinas[ 0+1][-1+1]= esFlecha;
+            if (i==4) this.esquinas[ 0+1][ 0+1]= esFlecha;
+            if (i==5) this.esquinas[ 0+1][ 1+1]= esFlecha;
+            if (i==6) this.esquinas[ 1+1][-1+1]= esFlecha;
+            if (i==7) this.esquinas[ 1+1][ 0+1]= esFlecha;
+            if (i==8) this.esquinas[ 1+1][ 1+1]= esFlecha;
         }
     }
     
@@ -224,15 +238,15 @@ public class Carta {
                 ;
         res = formato;
         // Coloca las esquinas
-        for (int i=0;i<8;i++){
-            if (i==0) res = res.replace("0",this.esquinas[0]?"\\":"¯");
-            if (i==1) res = res.replace("1",this.esquinas[1]? "A":" ");
-            if (i==2) res = res.replace("2",this.esquinas[2]? "/":"¯");
-            if (i==3) res = res.replace("3]",this.esquinas[3]? " >":" (");
-            if (i==4) res = res.replace("4",this.esquinas[4]?"\\":"_");
-            if (i==5) res = res.replace("5",this.esquinas[5]? "V":" ");
-            if (i==6) res = res.replace("6",this.esquinas[6]? "/":"_");
-            if (i==7) res = res.replace("[7",this.esquinas[7]? "< ":") ");
+        for (int i=0;i<9;i++){
+            if (i==0) res = res.replace("0", this.esquinas[-1+1][-1+1]?"\\":"¯");
+            if (i==1) res = res.replace("1", this.esquinas[-1+1][ 0+1]? "A":" ");
+            if (i==2) res = res.replace("2", this.esquinas[-1+1][ 1+1]? "/":"¯");
+            if (i==3) res = res.replace("3]",this.esquinas[ 0+1][-1+1]? " >":" (");
+            if (i==5) res = res.replace("4", this.esquinas[ 0+1][ 1+1]?"\\":"_");
+            if (i==6) res = res.replace("5", this.esquinas[ 1+1][-1+1]? "V":" ");
+            if (i==7) res = res.replace("6", this.esquinas[ 1+1][ 0+1]? "/":"_");
+            if (i==8) res = res.replace("[7",this.esquinas[ 1+1][ 1+1]? "< ":") ");
         }
         // Coloca valores
         res = res.replace("abcde",this.valores.substring(0, 1)+" "+this.valores.substring(1));
@@ -268,7 +282,9 @@ public class Carta {
     @Override
     public String toString(){
         String esq="";
-        for(int i=0;i<8;i++) esq += esquinas[i]? 1:0;
+        for(int i=-1;i<2;i++) 
+            for (int j=-1; j<2; j++)
+                esq += esquinas[i][j]? 1:0;
         String resp =
                "["+nombre+"] "+               
                "\t\tAtq:" + " ("+ nivelAtaque + " " + ataqueTipo +")" +

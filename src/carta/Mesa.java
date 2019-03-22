@@ -100,12 +100,46 @@ public class Mesa {
     public void B_Juega(int noCarta, int[] pos) {
         Carta tmp = mazoB[noCarta];
         mazoB[noCarta] = Carta.CartaVacio();
-        tmp.setMensaje("J-B");
+        tmp.perteneceA="J-B";
         tmp.setMensaje("J-B>B");
         tmp.pos = pos;
         orden.add(tmp);
         campo[pos[0]][pos[1]]=tmp;
     }
     
-    
+    public Carta[] cartasVecinas(){
+        // Los límites máximos de i,j
+        int imax=3;
+        int jmax =3;
+        Carta[] res = new Carta[1];
+        Carta atq = orden.get(orden.size()-1);
+        int ic = atq.pos[0];
+        int jc = atq.pos[1];
+        for (int i=-1;i<2;i++) {
+            for (int j=-1;j<2;j++){
+                if (i==0 && j==0) continue;
+                int iv=ic+i;
+                int jv = jc+j;
+                if (iv<0 || iv>imax) break;
+                if (jv<0 || jv>jmax) continue;
+                Carta vecino = campo[iv][jv];
+                if (vecino.esVacio) continue;
+                if (vecino.esPiedra) continue;
+                // Llegados hasta aquí la vecina es una carta
+                if (vecino.perteneceA == atq.perteneceA) continue;
+                // La carta vecina es enemiga y hay que confirmar
+                // las flechas en la esquina o lado que comparten
+                if (!atq.esquinas[i+1][j+1]) continue;
+                if (!atq.esquinas[i+1][j+1] && !vecino.esquinas[j+1][i+1]) continue;
+                if (atq.esquinas[i+1][j+1] && !vecino.esquinas[j+1][i+1]) {
+                    // Gana el atacante porque tiene flecha y el defensor no tiene
+                    //vecino.
+                }
+                if (atq.esquinas[i+1][j+1] && vecino.esquinas[j+1][i+1]) res[0]=vecino;
+                
+                
+            }
+        }
+        return res;
+    }
 }
