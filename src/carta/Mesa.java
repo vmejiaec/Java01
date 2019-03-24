@@ -91,8 +91,8 @@ public class Mesa {
     public void A_Juega(int noCarta, int[] pos) {
         Carta tmp = mazoA[noCarta];
         mazoA[noCarta] = Carta.CartaVacio();
-        tmp.perteneceA="J-A";
-        tmp.setMensaje("J-A>A");
+        tmp.perteneceA=Carta.Jugador.J_A;
+        tmp.color=Carta.Jugador.J_A;
         tmp.pos = pos;
         orden.add(tmp);
         campo[pos[0]][pos[1]]=tmp;
@@ -100,18 +100,17 @@ public class Mesa {
     public void B_Juega(int noCarta, int[] pos) {
         Carta tmp = mazoB[noCarta];
         mazoB[noCarta] = Carta.CartaVacio();
-        tmp.perteneceA="J-B";
-        tmp.setMensaje("J-B>B");
+        tmp.perteneceA=Carta.Jugador.J_B;
+        tmp.color = Carta.Jugador.J_B;
         tmp.pos = pos;
         orden.add(tmp);
         campo[pos[0]][pos[1]]=tmp;
     }
     
-    public Carta[] cartasVecinas(){
+    public void resuelveTurno(){
         // Los límites máximos de i,j
         int imax=3;
         int jmax =3;
-        Carta[] res = new Carta[1];
         Carta atq = orden.get(orden.size()-1);
         int ic = atq.pos[0];
         int jc = atq.pos[1];
@@ -126,20 +125,32 @@ public class Mesa {
                 if (vecino.esVacio) continue;
                 if (vecino.esPiedra) continue;
                 // Llegados hasta aquí la vecina es una carta
-                if (vecino.perteneceA == atq.perteneceA) continue;
+                if (vecino.color == atq.color) continue;
                 // La carta vecina es enemiga y hay que confirmar
                 // las flechas en la esquina o lado que comparten
                 if (!atq.esquinas[i+1][j+1]) continue;
-                if (!atq.esquinas[i+1][j+1] && !vecino.esquinas[j+1][i+1]) continue;
-                if (atq.esquinas[i+1][j+1] && !vecino.esquinas[j+1][i+1]) {
-                    // Gana el atacante porque tiene flecha y el defensor no tiene
-                    //vecino.
+                // Ahora se debe calcular la esquina opuesta correspondiente de la carta vecina
+                // Si la posición es i,j entonces se sigue la siguiente tabla
+                //   -1,-1  -1,0  -1,1           1,1   1,0   1,-1
+                //    0,-1   0,0   0,1     ->    0,1   0,0   0,-1
+                //    1,-1   1,0   1,1          -1,1  -1,0  -1,-1
+                if (vecino.esquinas[-i+1][-j+1]) {
+                    // El ganador se decide en combate
+                    String quienGana=atq.combate(vecino);
+                    if (quienGana.contains("<Gana Atacante>")) vecino.color = atq.color;
+                    if (quienGana.contains("<Gana Defensor>")) atq.color = vecino.color;
+                } else{
+                    // El atacante gana porque el vecino no tiene esquina
+                    vecino.color = atq.color;
                 }
-                if (atq.esquinas[i+1][j+1] && vecino.esquinas[j+1][i+1]) res[0]=vecino;
-                
-                
             }
         }
-        return res;
+    }
+    
+    public int[] esquinaOpuesta(int i, int j){
+        int[] op = new int[]{0,0};
+        op[0]=-i;
+        op[1]=-j;
+        return op;
     }
 }

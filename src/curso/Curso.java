@@ -33,9 +33,7 @@ public class Curso {
         mesa.B_Juega(2,new int[]{0,1});
         System.out.println(mesa.dibuja());
         // Verifica si hay pelea 
-        // Pelea
-        Carta[] cvs = mesa.cartasVecinas();
-        System.out.println(mesa.campo[0][1].combate(mesa.campo[1][0], 6));
-        
+        mesa.resuelveTurno();
+        System.out.println(mesa.dibuja());        
     }
 }

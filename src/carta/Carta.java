@@ -21,7 +21,9 @@ public class Carta {
     
     Boolean esPiedra=false;
     Boolean esVacio = false;
-    public String perteneceA="";
+    public enum Jugador{J_A,J_B};
+    public Jugador perteneceA=Jugador.J_A;
+    public Jugador color=Jugador.J_A;
     int pos[];
     
     public enum AtaqueTipo {FISICO, MAGICO, ESPECIAL, AVANZADO};
@@ -74,6 +76,10 @@ public class Carta {
     */
     public void setMensaje(String msg){
         this.mensaje = msg;
+    }
+    
+    public String getMensaje(){
+        return this.perteneceA.toString() + this.color.toString().substring(2);
     }
     
     /*
@@ -151,10 +157,8 @@ public class Carta {
         hpDefensaMagica = getHP(nivelDefensaMagica);
     }
     
-    public String combate(Carta op, int noEsquina){
+    public String combate(Carta op){
         String quienGana = "*";
-        //if (esquinas[noEsquina] && op.esquinas[noEsquina]){
-            
             // Calcula hps
             calculaHPs();
             op.calculaHPs();
@@ -207,8 +211,6 @@ public class Carta {
                     if (ataque < defensa) quienGana = "Gana Defensor";
                     break;
             }
-        //}
-        
         return quienGana;
     }
     
@@ -251,7 +253,7 @@ public class Carta {
         // Coloca valores
         res = res.replace("abcde",this.valores.substring(0, 1)+" "+this.valores.substring(1));
         // Colaca mensaje
-        res = res.replace("jklmn",String.format("%1$-5s",this.mensaje).substring(0, 5));
+        res = res.replace("jklmn",String.format("%1$-5s",this.getMensaje()).substring(0, 5));
         // Coloca el nombre de la carta
         res = res.replace("efghi", String.format("%1$-5s",this.nombre).substring(0, 5));
         // Si es piedra le quitamos los valores
