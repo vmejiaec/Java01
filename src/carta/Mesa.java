@@ -21,6 +21,8 @@ public class Mesa {
     public Carta[][] campo = new Carta[4][4];
     // Para mantener el orden en el que se jugaron las cartas
     public ArrayList<Carta> orden = new ArrayList<Carta>();
+    // Mensajes para imprimir al pie de la mesa
+    public String mensaje ="";
     /*
     Inicia la mesa vacía 
     */
@@ -54,9 +56,9 @@ public class Mesa {
     Imprime el campo
     */
     public String dibuja(){
-        String res="";
+        String res="[]====================================================[]\n";
         //Dibuja el mazo A
-        res = "                     Mazo A" + "\n";
+        res += "                     Mazo A" + "\n";
         res += StringTools.Encadena5Lineas(
                         mazoA[0].dibuja(), 
                         mazoA[1].dibuja(), 
@@ -85,26 +87,33 @@ public class Mesa {
                         mazoB[3].dibuja(),
                         mazoA[4].dibuja()
                 );
+        res += "\n";
+        res += this.mensaje + "\n";
+        res += "[]====================================================[]\n";
         return res;
     }
 
     public void A_Juega(int noCarta, int[] pos) {
         Carta tmp = mazoA[noCarta];
         mazoA[noCarta] = Carta.CartaVacio();
-        tmp.perteneceA=Carta.Jugador.J_A;
-        tmp.color=Carta.Jugador.J_A;
+        tmp.perteneceA=Carta.Jugador.JA;
+        tmp.color=Carta.Jugador.JA;
         tmp.pos = pos;
         orden.add(tmp);
         campo[pos[0]][pos[1]]=tmp;
+        // Mensaje para imprimir
+        this.mensaje ="JA juega la carta "+tmp.nombre;
     }
     public void B_Juega(int noCarta, int[] pos) {
         Carta tmp = mazoB[noCarta];
         mazoB[noCarta] = Carta.CartaVacio();
-        tmp.perteneceA=Carta.Jugador.J_B;
-        tmp.color = Carta.Jugador.J_B;
+        tmp.perteneceA=Carta.Jugador.JB;
+        tmp.color = Carta.Jugador.JB;
         tmp.pos = pos;
         orden.add(tmp);
         campo[pos[0]][pos[1]]=tmp;
+        // Mensaje para imprimir
+        this.mensaje ="JB juega la carta "+tmp.nombre;
     }
     
     public void resuelveTurno(){
@@ -137,11 +146,21 @@ public class Mesa {
                 if (vecino.esquinas[-i+1][-j+1]) {
                     // El ganador se decide en combate
                     String quienGana=atq.combate(vecino);
-                    if (quienGana.contains("<Gana Atacante>")) vecino.color = atq.color;
-                    if (quienGana.contains("<Gana Defensor>")) atq.color = vecino.color;
+                    if (quienGana.contains("<Gana Atacante>")) { 
+                        vecino.color = atq.color;
+                        this.mensaje = "Gana por batalla: -> "+atq.nombre + ". Pierde " + vecino.nombre;
+                    }
+                    if (quienGana.contains("<Gana Defensor>")) { 
+                        atq.color = vecino.color;
+                        this.mensaje = "Pierde en batalla: "+atq.nombre + ". Gana -> " + vecino.nombre;
+                    }
+                    if (quienGana.contains("<Empate>")) { 
+                        this.mensaje = "Empate en batalla: "+atq.nombre + " y " + vecino.nombre;
+                    }
                 } else{
                     // El atacante gana porque el vecino no tiene esquina
                     vecino.color = atq.color;
+                    this.mensaje = "Gana por falta de esquina: -> "+atq.nombre + ". Pierde " + vecino.nombre;
                 }
             }
         }

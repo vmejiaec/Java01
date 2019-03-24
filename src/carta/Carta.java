@@ -21,9 +21,9 @@ public class Carta {
     
     Boolean esPiedra=false;
     Boolean esVacio = false;
-    public enum Jugador{J_A,J_B};
-    public Jugador perteneceA=Jugador.J_A;
-    public Jugador color=Jugador.J_A;
+    public enum Jugador{JA,JB};
+    public Jugador perteneceA=Jugador.JA;
+    public Jugador color=Jugador.JA;
     int pos[];
     
     public enum AtaqueTipo {FISICO, MAGICO, ESPECIAL, AVANZADO};
@@ -79,7 +79,10 @@ public class Carta {
     }
     
     public String getMensaje(){
-        return this.perteneceA.toString() + this.color.toString().substring(2);
+        String msg ="";
+        if (esVacio || esPiedra) return "";
+        msg = this.perteneceA.toString() + "->"+this.color.toString().substring(1);
+        return msg;
     }
     
     /*
@@ -234,21 +237,21 @@ public class Carta {
         String formato = 
                 "|0¯¯¯1¯¯¯2|"+"\n"+
                 "|  abcde  |"+"\n"+
-                "[7 efghi 3]"+"\n"+
+                "[3 efghi 4]"+"\n"+
                 "|  jklmn  |"+"\n"+
-                "|6___5___4|"+"\n"
+                "|5___6___7|"+"\n"
                 ;
         res = formato;
         // Coloca las esquinas
         for (int i=0;i<9;i++){
-            if (i==0) res = res.replace("0", this.esquinas[-1+1][-1+1]?"\\":"¯");
-            if (i==1) res = res.replace("1", this.esquinas[-1+1][ 0+1]? "A":" ");
-            if (i==2) res = res.replace("2", this.esquinas[-1+1][ 1+1]? "/":"¯");
-            if (i==3) res = res.replace("3]",this.esquinas[ 0+1][-1+1]? " >":" (");
-            if (i==5) res = res.replace("4", this.esquinas[ 0+1][ 1+1]?"\\":"_");
-            if (i==6) res = res.replace("5", this.esquinas[ 1+1][-1+1]? "V":" ");
-            if (i==7) res = res.replace("6", this.esquinas[ 1+1][ 0+1]? "/":"_");
-            if (i==8) res = res.replace("[7",this.esquinas[ 1+1][ 1+1]? "< ":") ");
+            if (i==0) res = res.replace("0", this.esquinas[-1+1][-1+1]?"\\" :"¯");
+            if (i==1) res = res.replace("1", this.esquinas[-1+1][ 0+1]? "A" :" ");
+            if (i==2) res = res.replace("2", this.esquinas[-1+1][ 1+1]? "/" :"¯");
+            if (i==3) res = res.replace("[3",this.esquinas[ 0+1][-1+1]? "< ":") ");
+            if (i==5) res = res.replace("4]",this.esquinas[ 0+1][ 1+1]? " >":" (");
+            if (i==6) res = res.replace("5", this.esquinas[ 1+1][-1+1]? "/" :"_");
+            if (i==7) res = res.replace("6", this.esquinas[ 1+1][ 0+1]? "V" :" ");
+            if (i==8) res = res.replace("7", this.esquinas[ 1+1][ 1+1]? "\\":"_");
         }
         // Coloca valores
         res = res.replace("abcde",this.valores.substring(0, 1)+" "+this.valores.substring(1));

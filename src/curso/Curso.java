@@ -30,7 +30,7 @@ public class Curso {
         mesa.A_Juega(2,new int[]{1,0});
         System.out.println(mesa.dibuja());
         // Pongo la segunda carta
-        mesa.B_Juega(2,new int[]{0,1});
+        mesa.B_Juega(1,new int[]{0,1});
         System.out.println(mesa.dibuja());
         // Verifica si hay pelea 
         mesa.resuelveTurno();
